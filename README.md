@@ -1,1 +1,1 @@
-### Global Catalog Admin Tool
+### Sample React Redux application

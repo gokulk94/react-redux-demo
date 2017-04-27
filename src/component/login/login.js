@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import request from 'superagent';
-import { authenticateUser } from '../../action/loginAction';
-import { connect } from 'react-redux'
-
-class Login extends Component {
-  constructor(props) {
-    super(props);
+import PropTypes from 'prop-types';
+export class Login extends Component {
+  static propTypes = {
+    isLoggedIn: PropTypes.bool.isRequired,
+    actions: PropTypes.object.isRequired
   }
   handleLogin = () => {
     let username = this.refs.username.value;
@@ -14,10 +12,15 @@ class Login extends Component {
       password && password == '') {
         return;
       }
-    authenticateUser({
+    this.props.actions.authenticateUser({
       username: username,
       password: password
     });
+  }
+  componentWillReceiveProps() {
+    if(this.props.isLoggedIn) {
+      this.props.history.push('/dashboard');
+    }
   }
   componentWillMount() {
 
@@ -35,9 +38,3 @@ class Login extends Component {
     );
   }
 }
-
-Login.propTypes = {
-  dispatch: PropTypes.func.isRequired
-}
-
-export default connect(Login);

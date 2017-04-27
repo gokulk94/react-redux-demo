@@ -1,9 +1,11 @@
-export const AUTHENTICATE = 'AUTHENTICATE';
+'!use strict';
+import request from 'superagent';
+import store from '../reducer/login';
 
 function authenticateAction(userAuth) {
   return {
-    type: AUTHENTICATE,
-    userAuth
+    type: 'FETCH_USER_SUCCESS',
+    response: userAuth 
   }
 }
 

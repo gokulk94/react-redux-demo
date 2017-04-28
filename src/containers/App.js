@@ -1,36 +1,38 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import * as adminActions from '../action/loginAction'
-import {
-  BrowserRouter as Router,
-  Route
-} from 'react-router-dom';
-import {BrowserHistory} from 'history';
+import { Route } from 'react-router-dom'
+import * as ActionCreators from '../action/loginAction'
 import Login from '../component/login/login'
+import Dashboard from '../component/Dashboard/dashboard'
 
-const App = ({isLoggedIn, actions}) => (
-  <Router history={BrowserHistory}>
+class App extends Component {
+  render() {
+    return (
       <div>
-        <Route exact path="/"/>
-        <Route exact path="/login" render={() => (<Login isLoggedIn={isLoggedIn} actions={actions}/>)} />
-        <Route path="/dashboard"/>
+        <Login onSumbit={this.props.actions.authenticateAction} isLoggedIn={this.props.isLoggedIn}/>
+        {/*<Route path="/login" re={Login} />*/}
+        <Route path="/dashboard" component={Dashboard} />
       </div>
-    </Router>
-)
+    )
+  }
+}
 
 App.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   actions: PropTypes.object.isRequired
 }
 
-const mapStateToProps = state => ({
-  isLoggedIn: state.isLoggedIn
-})
+const mapStateToProps = state => {
+  console.log(state.login);
+  return {
+    isLoggedIn: state.login.isLoggedIn
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
-    actions: bindActionCreators(adminActions, dispatch)
+    actions: bindActionCreators(ActionCreators, dispatch)
 })
 
 export default connect(

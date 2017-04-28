@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { verifyUserDetails } from '../../api/api'
 
 export default class Login extends Component {
   static propTypes = {
@@ -7,23 +8,21 @@ export default class Login extends Component {
     onSumbit: PropTypes.func.isRequired
   }
   handleLogin = () => {
-    console.log(this.props)
     let username = this.refs.username.value;
     let password = this.refs.password.value;
     if(username && username === '' &&
       password && password === '') {
         return;
-      }
-    this.props.onSumbit({
+    }
+    verifyUserDetails({
       username: username,
       password: password
-    });
+    }).then((data) => {
+      this.props.onSumbit(data);
+    })
   }
   componentDidMount() {
-    console.log(this.props.onSumbit)
-    if(this.props.isLoggedIn) {
-      console.log('move to dashboard');
-    }
+
   }
 
   render() {

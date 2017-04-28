@@ -24,12 +24,9 @@ App.propTypes = {
   actions: PropTypes.object.isRequired
 }
 
-const mapStateToProps = state => {
-  console.log(state.login);
-  return {
-    isLoggedIn: state.login.isLoggedIn
-  }
-}
+const mapStateToProps = (state) => ({
+    isLoggedIn: state.login.isloggedIn
+})
 
 const mapDispatchToProps = dispatch => ({
     actions: bindActionCreators(ActionCreators, dispatch)

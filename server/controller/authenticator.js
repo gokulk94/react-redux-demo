@@ -15,7 +15,7 @@ module.exports = {
             const token = buf.toString('hex');
             tokenCache.add(token, token, 24 * 60 * 60 * 1000);
             res.header('access_token', token);
-            res.send();
+            res.send(user);
           });
         } else {
           res.json({

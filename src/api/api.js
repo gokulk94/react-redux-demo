@@ -1,11 +1,9 @@
-import request from 'superagent';
+import request from 'axios';
 
 export function verifyUserDetails(userAuth) {
   return request
-      .post('/login/authenticate')
-      .send({
+      .post('/login/authenticate', {
         username: userAuth.username,
         password: userAuth.password
-      })
-      .set('Accept','application/json');
+      });
 }

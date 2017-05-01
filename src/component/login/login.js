@@ -10,21 +10,29 @@ export default class Login extends Component {
   handleLogin = () => {
     let username = this.refs.username.value;
     let password = this.refs.password.value;
-    if(username && username === '' &&
-      password && password === '') {
-        return;
+    if(username === '' || password === '') {
+      return ;
     }
     verifyUserDetails({
       username: username,
       password: password
     }).then((data) => {
       this.props.onSumbit(data);
+    }).catch((e) => {
+      this.props.onSumbit(e);
+      console.info(e)
     })
   }
   componentDidMount() {
-
+    if(this.props.isLoggedIn) {
+      console.log('sdfd')
+    }
   }
-
+  componentWillReceiveProps(nextProp) {
+    if(nextProp.isLoggedIn) {
+      console.log('aaaaa')
+    }
+  }
   render() {
     return (
       <div className="login-page">

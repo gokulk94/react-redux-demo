@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -7,25 +7,39 @@ import * as ActionCreators from '../action/loginAction'
 import Login from '../component/login/login'
 import Dashboard from '../component/Dashboard/dashboard'
 
-class App extends Component {
+const App =({actions, isloggedIn}) => 
+  (
+      <div>
+        <Route path='/login' render={() =>
+            <Login onSumbit={actions.authenticateAction} isLoggedIn={isloggedIn}/>
+        }>
+        </Route>
+        <Route path="/dashboard" component={Dashboard} />
+      </div>
+  )
+
+
+/*class App extends Component {
   render() {
     return (
       <div>
-        <Login onSumbit={this.props.actions.authenticateAction} isLoggedIn={this.props.isLoggedIn}/>
-        {/*<Route path="/login" re={Login} />*/}
+        <Route path='/login' render={() =>
+            <Login onSumbit={this.props.actions.authenticateAction} isLoggedIn={this.props.isLoggedIn}/>
+        }>
+        </Route>
         <Route path="/dashboard" component={Dashboard} />
       </div>
     )
   }
-}
+}*/
 
 App.propTypes = {
-  isLoggedIn: PropTypes.bool.isRequired,
+  isloggedIn: PropTypes.bool.isRequired,
   actions: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => ({
-    isLoggedIn: state.login.isloggedIn
+    isloggedIn: state.login.isloggedIn
 })
 
 const mapDispatchToProps = dispatch => ({

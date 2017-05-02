@@ -1,16 +1,26 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { verifyUserDetails } from '../../api/api'
-
+import './login.css'
 export default class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      fieldEmptyError: false
+    }
+  }
   static propTypes = {
     isLoggedIn: PropTypes.bool.isRequired,
-    onSumbit: PropTypes.func.isRequired
+    onSumbit: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired
   }
   handleLogin = () => {
     let username = this.refs.username.value;
     let password = this.refs.password.value;
     if(username === '' || password === '') {
+      this.setState({
+        fieldEmptyError: true
+      });
       return ;
     }
     verifyUserDetails({
@@ -25,21 +35,21 @@ export default class Login extends Component {
   }
   componentDidMount() {
     if(this.props.isLoggedIn) {
-      console.log('sdfd')
+       this.props.history.push('/dashboard')
     }
   }
   componentWillReceiveProps(nextProp) {
     if(nextProp.isLoggedIn) {
-      console.log('aaaaa')
+      this.props.history.push('/dashboard')
     }
   }
   render() {
     return (
       <div className="login-page">
-        <input type="username" ref="username" name="username"/>
-        <input type="password" ref="password" name="password"/>
-        <div>{this.props.isLoggedIn.toString()}</div>
+        <input className="input-field" type="username" ref="username" name="username"/>
+        <input className="input-field" type="password" ref="password" name="password"/>
         <button type="button" onClick={this.handleLogin}>Login</button>
+        {this.state.fieldEmptyError ? (<span>Field is empty</span>) : ''}
       </div>
     );
   }

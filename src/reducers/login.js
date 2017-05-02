@@ -1,14 +1,23 @@
 // Reducers for login module
 
-const login = (state = {isloggedIn: false}, action) => {
-
+const login = (state = {
+  isloggedIn: localStorage.getItem('accessToken') ? true : false
+  }, action) => {
     switch (action.type) {
       case 'FETCH_USER_SUCCESS':
+        localStorage.setItem('accessToken', action.response.token)
         return {
-          isloggedIn: !state.isloggedIn
+          isloggedIn: true,
         }
-      case 'FETCH_USER_ERROR': 
-        return state
+      case 'FETCH_USER_ERROR':
+        return {
+          isloggedIn: false
+        }
+      case 'LOGOUT_USER':
+        localStorage.removeItem('accessToken')
+        return {
+          isloggedIn: false
+        }
       default:
         return state
     }

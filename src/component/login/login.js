@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { verifyUserDetails } from '../../api/api'
+
 import './login.css'
 export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fieldEmptyError: false
+      fieldEmptyError: false,
+      errorMessage: ''
     }
   }
   static propTypes = {
     isLoggedIn: PropTypes.bool.isRequired,
-    onSumbit: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired
   }
   handleLogin = () => {
@@ -19,19 +20,12 @@ export default class Login extends Component {
     let password = this.refs.password.value;
     if(username === '' || password === '') {
       this.setState({
-        fieldEmptyError: true
+        fieldEmptyError: true,
+        errorMessage: 'Some fields are empty'
       });
-      return ;
+      return '';
     }
-    verifyUserDetails({
-      username: username,
-      password: password
-    }).then((data) => {
-      this.props.onSumbit(data);
-    }).catch((e) => {
-      this.props.onSumbit(e);
-      console.info(e)
-    })
+    this.props.onSubmit(username, password);
   }
   componentDidMount() {
     if(this.props.isLoggedIn) {
@@ -41,6 +35,11 @@ export default class Login extends Component {
   componentWillReceiveProps(nextProp) {
     if(nextProp.isLoggedIn) {
       this.props.history.push('/dashboard')
+    } else {
+      this.setState({
+        fieldEmptyError: true,
+        errorMessage: 'Invalid User credentials'
+      })
     }
   }
   render() {
@@ -49,7 +48,7 @@ export default class Login extends Component {
         <input className="input-field" type="username" ref="username" name="username"/>
         <input className="input-field" type="password" ref="password" name="password"/>
         <button type="button" onClick={this.handleLogin}>Login</button>
-        {this.state.fieldEmptyError ? (<span>Field is empty</span>) : ''}
+        {this.state.fieldEmptyError ? (<span>{this.state.errorMessage}</span>) : ''}
       </div>
     );
   }

@@ -11,7 +11,8 @@ const login = (state = {
         }
       case 'FETCH_USER_ERROR':
         return {
-          isloggedIn: false
+          isloggedIn: false,
+          message: 'invalidUserDetails'
         }
       case 'LOGOUT_USER':
         localStorage.removeItem('accessToken')

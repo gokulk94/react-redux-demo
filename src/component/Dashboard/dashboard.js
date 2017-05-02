@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 class Dashboard extends Component {
   static propTypes = {
-    onSumbit: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired
   }
   handleLogout = () => {
-    this.props.onSumbit();
+    this.props.onSubmit();
   }
   render() {
     return (
